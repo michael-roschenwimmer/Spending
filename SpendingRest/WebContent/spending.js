@@ -5,18 +5,23 @@ $(document).ready(function() {
 });
 
 var startUp = function() {
-	$.ajax({
-		type : "GET",
-		url : "rest/trackers",
-		dataType : "json",
-	}).done(function(data, status) {
-		console.log(data);
-		buildList(data);
-	}).fail(function(xhr, status, error) {
-		console.log('It blew up');
-		console.log(error);
-	});
-};
+    var myReq = $.ajax({
+      type : "GET",
+      url : "rest/trackers",
+      dataType : "json"
+    });
+    myReq.done(function(data, status) {
+        console.log(data);
+        console.log(status);
+        buildList(data);
+    });
+
+    myReq.fail(function(xhr, status, error) {
+        console.log('It blew up again');
+        console.log(error);
+    });
+}
+
 
 var buildList = function(data) {
     var table = $('<table>');
@@ -47,7 +52,7 @@ var buildList = function(data) {
             myReq.done(function(data, status) {
                 console.log(data);
                 console.log(status);
-                $("#content").empty();
+                $("#table").empty();
                 buildDesc(data);
             });
             myReq.fail(function(xhr, status, error) {
@@ -67,10 +72,11 @@ var buildList = function(data) {
             myReq.done(function(data, status) {
                 console.log(data);
                 console.log(status);
-                $("#content").empty();
+                $("#table").empty();
 
                 var tablediv = $("<div>");
                 tablediv.attr('id', 'table');
+                $("body").append(tablediv);
                 $("#content").append(tablediv);
                 startUp();
             });
@@ -175,7 +181,10 @@ var buildDesc = function(tracker) {
         $("body").css('background-size', 'cover');
 
         var tablediv = $("<div>");
+        var contentdiv = $("<div>");
+        contentdiv.attr('id', 'content');
         tablediv.attr('id', 'table');
+        $("body").append(contentdiv);
         $("#content").append(tablediv);
     });
     $("body").append(backbutton);
