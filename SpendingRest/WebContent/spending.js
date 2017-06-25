@@ -1,14 +1,14 @@
 $(document).ready(function() {
-  console.log("loaded");
-  startUp();
+    console.log("loaded");
+    startUp();
 
 });
 
 var startUp = function() {
     var myReq = $.ajax({
-      type : "GET",
-      url : "rest/trackers",
-      dataType : "json"
+        type: "GET",
+        url: "rest/trackers",
+        dataType: "json"
     });
     myReq.done(function(data, status) {
         console.log(data);
@@ -44,7 +44,7 @@ var buildList = function(data) {
         var input = $('<button>');
         input.addClass('button');
         input.attr('id', tracker.id);
-        input.text('Description');
+        input.text('Edit');
         input.on('click', function() {
             var myReq = $.ajax({
                 type: "GET",
@@ -56,6 +56,27 @@ var buildList = function(data) {
                 console.log(status);
                 $("#table").empty();
                 buildDesc(data);
+
+                var EditRestaurantBill = $("<h3>");
+                createRestaurantBill.text("Edit a new Bill");
+                var tablediv = $("<div>");
+                var contentdiv = $("<div>");
+                contentdiv.attr('id', 'content');
+                tablediv.attr('id', 'table');
+                $("body").append(contentdiv);
+                $("#content").append(tablediv);
+                $("#table").append(EditRestaurantBill);
+
+                var restaurantName = $("<input/>").attr({
+                    type: "text",
+                    id: "restaurantName",
+                    placeholder: "Restaurant Name"
+                }).appendTo("#table");
+                var billAmount = $("<input/>").attr({
+                    type: "text",
+                    id: "bill",
+                    placeholder: "Bill Amount in Dollars"
+                }).appendTo("#table");
             });
             myReq.fail(function(xhr, status, error) {
                 console.log('It blew up again');
@@ -64,7 +85,7 @@ var buildList = function(data) {
         })
         var deleteItem = $('<button>');
         deleteItem.addClass('button');
-        deleteItem.attr('id', tracker.id);  // Remind
+        deleteItem.attr('id', tracker.id); // Remind
         deleteItem.text('Delete Restaurant Bill');
         deleteItem.on('click', function() {
             var myReq = $.ajax({
@@ -87,7 +108,7 @@ var buildList = function(data) {
                 console.log(error);
             });
         })
-        td.text(tracker.id + ". " + tracker.restaurantName);
+        td.text(tracker.id + ". " + tracker.restaurantName + "  " + "Amount Spent $:" + tracker.bill);
 
 
         billTotal = tracker.bill + billTotal;
@@ -181,22 +202,45 @@ var buildDesc = function(tracker) {
 
     var backbutton = $('<button>');
     backbutton.addClass('backbutton');
-    backbutton.text('Return to home');
+    backbutton.text('Submit Changes');
     backbutton.on('click', function() {
-        startUp();
-        console.log("back button clicked");
-        $("body").empty();
-        $("body").css('background-image', 'url(http://wallpapercave.com/wp/k4eop3o.jpg)');
-        $("body").css('background-position', 'center');
-        $("body").css('background-attachment', 'fixed');
-        $("body").css('background-size', 'cover');
 
-        var tablediv = $("<div>");
-        var contentdiv = $("<div>");
-        contentdiv.attr('id', 'content');
-        tablediv.attr('id', 'table');
-        $("body").append(contentdiv);
-        $("#content").append(tablediv);
+        var updatedTracker = {
+          restaurantName: $("#restaurantName").val(),
+          bill: $("#bill").val(),
+        }; //object with updated name
+
+        var myPut = $.ajax({
+            type: "PUT",
+            url: "rest/trackers/" + tracker.id,
+            dataType: "json",
+            contentType: 'application/json', //setting the request headers content-type
+            data: JSON.stringify(updatedTracker) //the data being added to the request body
+        });
+        myPut.done(function(data, status) {
+            console.log(data);
+            console.log(status);
+
+            startUp();
+            console.log("back button clicked");
+            $("body").empty();
+            $("body").css('background-image', 'url(http://wallpapercave.com/wp/k4eop3o.jpg)');
+            $("body").css('background-position', 'center');
+            $("body").css('background-attachment', 'fixed');
+            $("body").css('background-size', 'cover');
+
+            var tablediv = $("<div>");
+            var contentdiv = $("<div>");
+            contentdiv.attr('id', 'content');
+            tablediv.attr('id', 'table');
+            $("body").append(contentdiv);
+            $("#content").append(tablediv);
+        });
+        myPut.fail(function(xhr, status, error) {
+            console.log('It blew up again');
+            console.log(error);
+        });
+
     });
     $("body").append(backbutton);
 }
