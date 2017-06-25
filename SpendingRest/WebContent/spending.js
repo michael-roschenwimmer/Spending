@@ -28,9 +28,11 @@ var buildList = function(data) {
     var thead = $('<thead>');
     var tr = $('<tr>');
     var th = $('<th>').text("Restaurant Bills");
+    var h1Total = $("<h1>");
     tr.append(th);
     thead.append(tr);
     table.append(thead);
+    var billTotal = 0;
     data.forEach(function(tracker, idx, array) {
         if (idx % 2) {
             var tr = $('<tr>').css("background-color", "#ff9999");
@@ -86,6 +88,14 @@ var buildList = function(data) {
             });
         })
         td.text(tracker.id + ". " + tracker.restaurantName);
+
+
+        billTotal = tracker.bill + billTotal;
+        console.log("bill total: " + tracker.bill);
+        console.log("total: " + billTotal);
+
+
+        h1Total.text("Total Spent: " + "$" + billTotal);
         tr.append(td);
         tr.append(input);
         tr.append(deleteItem);
@@ -93,6 +103,7 @@ var buildList = function(data) {
         table.append(tbody);
     })
     $('#table').append(table);
+    $('#table').append(h1Total);
 
     var createRestaurantBill = $("<h3>");
     createRestaurantBill.text("Create a new Bill");
