@@ -24,6 +24,8 @@ var startUp = function() {
 
 
 var buildList = function(data) {
+    $("body").css('background-image', 'url(http://mywayholiday.com/wp-content/uploads/2014/06/piggy-bank-on-the-beach.jpg)');
+    $("body").css('background-size', 'cover');
     var table = $('<table>');
     var thead = $('<thead>');
     var tr = $('<tr>');
@@ -35,9 +37,9 @@ var buildList = function(data) {
     var billTotal = 0;
     data.forEach(function(tracker, idx, array) {
         if (idx % 2) {
-            var tr = $('<tr>').css("background-color", "#ff9999");
+            var tr = $('<tr>').css("background-color", "#32CD32");
         } else {
-            var tr = $('<tr>')
+            var tr = $('<tr>').css("background-color", "#7FFFD4");
         }
         var tbody = $('<tbody>');
         var td = $('<td>');
@@ -108,7 +110,7 @@ var buildList = function(data) {
                 console.log(error);
             });
         })
-        td.text(tracker.id + ". " + tracker.restaurantName + "  " + "Amount Spent $" + tracker.bill);
+        td.text(tracker.id + ". " + tracker.restaurantName + "  " + "Amount Spent: $" + tracker.bill);
 
 
         billTotal = tracker.bill + billTotal;
@@ -169,7 +171,7 @@ var buildList = function(data) {
             startUp();
             console.log("back button clicked");
             $("body").empty();
-            $("body").css('background-image', 'url(http://wallpapercave.com/wp/k4eop3o.jpg)');
+            $("body").css('background-image', 'url(https://tctechcrunch2011.files.wordpress.com/2014/11/piggy-bank.png)');
             $("body").css('background-position', 'center');
             $("body").css('background-attachment', 'fixed');
             $("body").css('background-size', 'cover');
@@ -194,9 +196,10 @@ var buildList = function(data) {
 
 var buildDesc = function(tracker) {
     $("#content").empty();
-    $("body").css('background-image', 'url(http://wallpapercave.com/wp/d4emJ2t.jpg)');
-    $("body").css('background-size', '100%');
-    $("body").css('background-repeat', 'no-repeat');
+    $("body").css('background-image', 'url(http://mywayholiday.com/wp-content/uploads/2014/06/piggy-bank-on-the-beach.jpg)');
+    $("body").css('background-size', 'cover');
+    $("body").css('background-position', 'center');
+    $("body").css('background-attachment', 'fixed');
     var h1 = $('<h1>');
     var ul = $('<ul>');
     var li2 = $('<li>');
@@ -233,7 +236,7 @@ var buildDesc = function(tracker) {
             startUp();
             console.log("back button clicked");
             $("body").empty();
-            $("body").css('background-image', 'url(http://wallpapercave.com/wp/k4eop3o.jpg)');
+            $("body").css('background-image', 'url(http://mywayholiday.com/wp-content/uploads/2014/06/piggy-bank-on-the-beach.jpg)');
             $("body").css('background-position', 'center');
             $("body").css('background-attachment', 'fixed');
             $("body").css('background-size', 'cover');
