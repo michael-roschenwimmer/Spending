@@ -108,7 +108,7 @@ var buildList = function(data) {
                 console.log(error);
             });
         })
-        td.text(tracker.id + ". " + tracker.restaurantName + "  " + "Amount Spent $:" + tracker.bill);
+        td.text(tracker.id + ". " + tracker.restaurantName + "  " + "Amount Spent $" + tracker.bill);
 
 
         billTotal = tracker.bill + billTotal;
@@ -166,12 +166,21 @@ var buildList = function(data) {
         myPost.done(function(data, status) {
             console.log(data);
             console.log(status);
-            // start(buildList);  //check and fix?
-
-            // $("#content").empty();
-
+            startUp();
+            console.log("back button clicked");
             $("body").empty();
-            buildDesc(data);
+            $("body").css('background-image', 'url(http://wallpapercave.com/wp/k4eop3o.jpg)');
+            $("body").css('background-position', 'center');
+            $("body").css('background-attachment', 'fixed');
+            $("body").css('background-size', 'cover');
+
+            var tablediv = $("<div>");
+            var contentdiv = $("<div>");
+            contentdiv.attr('id', 'content');
+            tablediv.attr('id', 'table');
+            $("body").append(contentdiv);
+            $("#content").append(tablediv);
+
         });
         myPost.fail(function(xhr, status, error) {
             console.log('It blew up again');
